@@ -24,6 +24,8 @@ public class Ghost : MonoBehaviour
 
         if(hit.collider == null) {
             dir *= -1;
+            GetComponent<SpriteRenderer>().flipX = !GetComponent<SpriteRenderer>().flipX;
+            GetComponent<BoxCollider2D>().offset = new Vector2(GetComponent<BoxCollider2D>().offset.x * -1, 0);
         }
 
     }
