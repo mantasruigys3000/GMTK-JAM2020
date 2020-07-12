@@ -11,6 +11,8 @@ public class GlitchController : MonoBehaviour
     public PlayerController pl;
     public Canvas plCanv;
     public GameObject glitchText;
+    public AudioSource newGlitch;
+
     public float slowSpeed = 20f;
     public float normalSpeed = 40f;
 
@@ -54,6 +56,8 @@ public class GlitchController : MonoBehaviour
             int glitch = r;
 
             usedGlitches.Add(glitch);
+            newGlitch.Play();
+
 
             switch (glitch) {
                 case 0: glitchCamFlip(); break;

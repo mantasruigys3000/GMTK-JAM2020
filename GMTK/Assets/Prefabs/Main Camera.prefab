@@ -218,7 +218,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: -10.1}
-  m_SizeDelta: {x: 300, y: 60}
+  m_SizeDelta: {x: 474.68, y: 423.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5354478196445676699
 CanvasRenderer:
@@ -260,4 +260,6 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 2
-  m_Text: You Died
+  m_Text: 'You Died
+
+    Press R to restart'

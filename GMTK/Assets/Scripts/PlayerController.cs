@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
 
     public AudioSource footstepClip;
     public AudioSource jumpClip;
+    public AudioSource dieClip;
     public float runSpd = 40f;
     public bool dead = false;
     bool jump = false;
@@ -134,6 +135,8 @@ public class PlayerController : MonoBehaviour {
         deathText.enabled = true;
         playerAnim.SetTrigger("die");
         GetComponent<Rigidbody2D>().simulated = false;
+        dieClip.Play();
+
 
     }
 
