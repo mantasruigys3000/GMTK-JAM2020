@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour {
 
     //glitchvars
     public bool switchMove = false;
+    public bool noMove = false;
+    public bool invis = false;
 
     private void Start() {
         deathText.enabled = false;
@@ -30,6 +32,10 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Update() {
+
+        GetComponent<SpriteRenderer>().enabled = !invis;
+        
+
         if(Input.GetAxisRaw("Horizontal") != 0) {
             playerAnim.SetBool("isRunning", true);
             signDir = Mathf.Sign(Input.GetAxisRaw("Horizontal"));
@@ -44,6 +50,11 @@ public class PlayerController : MonoBehaviour {
 
         horrizontalMove = Input.GetAxisRaw("Horizontal") * runSpd;
         horrizontalMove = (switchMove)? horrizontalMove*-1: horrizontalMove;
+
+        if (noMove) {
+            horrizontalMove = 0f;
+
+        }
 
         if (Input.GetKeyDown(KeyCode.Space)) {
 

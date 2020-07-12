@@ -40,17 +40,17 @@ public class GlitchController : MonoBehaviour
     }
 
     IEnumerator addGlitch() {
-        int numGlitches = 3;
-        yield return new WaitForSeconds(2f);
+        int numGlitches = 5;
+        yield return new WaitForSeconds(5f);
         //glitchCamFlip();
         //glitchPlayerSlow();
         //glitchSwitchMove();
-        /*
+        
         if (usedGlitches.Count < numGlitches) {
-            int r = Random.Range(0, numGlitches - 1);
+            int r = Random.Range(0, numGlitches);
 
             do {
-                r = Random.Range(0, numGlitches - 1);
+                r = Random.Range(0, numGlitches);
             } while (usedGlitches.Contains(r));
 
             int glitch = r;
@@ -61,11 +61,13 @@ public class GlitchController : MonoBehaviour
                 case 0: glitchCamFlip(); break;
                 case 1: glitchSwitchMove(); break;
                 case 2: glitchPlayerSlow(); break;
+                case 3: glitchNoMove(); break;
+                case 4: glitchInvis(); break;
 
             }
         }
         
-        */
+        
         StartCoroutine(addGlitch());
 
     }
@@ -81,7 +83,6 @@ public class GlitchController : MonoBehaviour
 
 
     }
-        
     void glitchSwitchMove() { //switch A and D 1
         
         pl.switchMove = true;
@@ -90,54 +91,93 @@ public class GlitchController : MonoBehaviour
 
         
     }
-
     //Legs blow off
     void glitchPlayerSlow() {
         // 2
+        addText("slow movement");
         pl.runSpd = slowSpeed;
+        StartCoroutine(ResetGlitchSlowSpeed(5f));
+
+    }
+    void glitchNoMove() { // 3
+        pl.noMove = true;
+        addText("No moving haha");
+        StartCoroutine(ResetGlitchNoMove(5f));
 
     }
 
+    void glitchInvis() {
+        // 4
+        pl.invis = true;
+        addText("invisible Player");
+        StartCoroutine(ResetGlitchInvis(5f));
+        
+    }
     //Reverts
-
     IEnumerator ResetGlitchCamFlip(float t) {
         
         yield return new WaitForSeconds(t);
         Camera.main.transform.rotation = Quaternion.Euler(0, 0, 0);
         
-        addText("Camera Normal");
+        removeAddText("Camera Normal");
         int g = 0;
         usedGlitches.Remove(g);
 
 
     }
-
     IEnumerator ResetGlitchSwitchMove(float t) {
         yield return new WaitForSeconds(t);
         pl.switchMove = false;
-        addText("movement Normal");
+        removeAddText("Move Controls Normal");
         int g = 1;
         usedGlitches.Remove(g);
 
 
     }
-
     IEnumerator ResetGlitchSlowSpeed(float t) {
         yield return new WaitForSeconds(t);
         pl.runSpd = normalSpeed;
-        addText("movement Normal");
+        removeAddText("move speed Normal");
         int g = 2;
         usedGlitches.Remove(g);
 
 
     }
 
+    IEnumerator ResetGlitchNoMove(float t) {
+        yield return new WaitForSeconds(t);
+        pl.noMove = false;
+        removeAddText("can now move");
+        int g = 3;
+        usedGlitches.Remove(g);
+    }
+
+    IEnumerator ResetGlitchInvis(float t) {
+        yield return new WaitForSeconds(t);
+        pl.invis = false;
+        removeAddText("Now visible");
+        int g = 4;
+        usedGlitches.Remove(g);
+    }
+
     //Other
     void addText(string txt) {
-        GameObject o = Instantiate(glitchText, Camera.main.ScreenToWorldPoint(new Vector2((Screen.width / 2) - 1, Screen.height / 2)), Quaternion.identity);
+        GameObject o = Instantiate(glitchText, Camera.main.ScreenToWorldPoint(new Vector2((Screen.width / 2), Screen.height / 2)), Quaternion.identity);
         o.transform.SetParent(plCanv.transform, false);
 
         o.GetComponent<Text>().text = txt;
+        o.transform.Translate(-200f, 0, 0);
 
+    }
+
+    void removeAddText(string txt) {
+        GameObject o = Instantiate(glitchText, Camera.main.ScreenToWorldPoint(new Vector2((Screen.width / 2) ,Screen.height / 2)), Quaternion.identity);
+        o.transform.SetParent(plCanv.transform, false);
+        o.transform.Translate(200f, 0, 0);
+
+        
+
+        o.GetComponent<Text>().text = txt;
+        o.GetComponent<Text>().color = Color.red;
     }
 }

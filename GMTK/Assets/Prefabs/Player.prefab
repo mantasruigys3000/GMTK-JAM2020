@@ -216,6 +216,7 @@ MonoBehaviour:
   currentBullet: {fileID: 2040056519862695857, guid: 0674582306e67c049a6abfdabe94a074,
     type: 3}
   switchMove: 0
+  noMove: 0
 --- !u!114 &-6290866350520080374
 MonoBehaviour:
   m_ObjectHideFlags: 0
