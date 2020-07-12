@@ -32,9 +32,7 @@ public class GlitchController : MonoBehaviour
     void Update()
     {
         if (pl.dead) {
-            if (Input.GetKeyDown(KeyCode.R)) {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            }
+            
         }
         
     }

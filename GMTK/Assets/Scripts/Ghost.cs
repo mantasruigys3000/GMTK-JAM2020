@@ -6,7 +6,7 @@ public class Ghost : MonoBehaviour
 {
     // Start is called before the first frame update
     float dir = -1;
-    float spd = 5f;
+    public float spd = 5f;
     public LayerMask ground;
     void Start()
     {

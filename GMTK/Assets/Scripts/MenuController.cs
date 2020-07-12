@@ -15,8 +15,8 @@ public class MenuController : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)){
-            SceneManager.LoadScene("game");
-            Scene g = SceneManager.GetSceneByName("game");
+            SceneManager.LoadScene("tutorial");
+            Scene g = SceneManager.GetSceneByName("tutorial");
 
 
             SceneManager.SetActiveScene(g);

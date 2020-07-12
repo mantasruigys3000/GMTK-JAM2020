@@ -11,15 +11,20 @@ public class PlayerController : MonoBehaviour {
     public CharacterController2D controller;
     public Text deathText;
     public Animator playerAnim;
+
+    public AudioSource footstepClip;
+    public AudioSource jumpClip;
     public float runSpd = 40f;
     public bool dead = false;
     bool jump = false;
     float signDir = 1;
-
+    public bool canShoot = true;
+    public float reloadTime = 0.2f;
 
     float horrizontalMove = 0f;
 
     public GameObject currentBullet;
+    public GameObject glitcControl;
 
     //glitchvars
     public bool switchMove = false;
@@ -32,11 +37,16 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void Update() {
+       
 
         GetComponent<SpriteRenderer>().enabled = !invis;
         
 
         if(Input.GetAxisRaw("Horizontal") != 0) {
+            if (!footstepClip.isPlaying) {
+                footstepClip.Play();
+            }
+            
             playerAnim.SetBool("isRunning", true);
             signDir = Mathf.Sign(Input.GetAxisRaw("Horizontal"));
 
@@ -46,6 +56,7 @@ public class PlayerController : MonoBehaviour {
 
         } else {
             playerAnim.SetBool("isRunning", false) ;
+            footstepClip.Stop();
         }
 
         horrizontalMove = Input.GetAxisRaw("Horizontal") * runSpd;
@@ -62,10 +73,15 @@ public class PlayerController : MonoBehaviour {
         }
 
         if (dead) {
-            
+            if (Input.GetKeyDown(KeyCode.R)) {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.Return)) {
+        if (Input.GetKey(KeyCode.Return) && canShoot) {
+            canShoot = false;
+            StartCoroutine(reload());
+
             shoot();
 
         }
@@ -81,6 +97,8 @@ public class PlayerController : MonoBehaviour {
         if (jump) {
             Debug.Log("should jump");
             playerAnim.SetTrigger("jump");
+            jumpClip.Play();
+
 
         }
 
@@ -90,6 +108,20 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D collision) {
+
+        
+        if (collision.transform.gameObject.tag == "glitchtrigger") {
+            glitcControl.SetActive(true);
+        }
+
+        if (collision.transform.gameObject.tag == "princess") {
+            SceneManager.LoadScene(collision.transform.gameObject.GetComponent<nextLevel>().nextScene);
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName(collision.transform.gameObject.GetComponent<nextLevel>().nextScene));
+
+            
+        }
+
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("hazzard")) {
             die();
 
@@ -119,6 +151,11 @@ public class PlayerController : MonoBehaviour {
     public void onLand() {
         playerAnim.SetTrigger("land");
         Debug.Log("Landed");
+    }
+
+    IEnumerator reload() {
+        yield return new WaitForSeconds(reloadTime);
+        canShoot = true;
     }
 
 }
